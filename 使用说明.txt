@@ -1,0 +1,35 @@
+前提条件：
+计算机必须装有python3，已经安装python的电脑，请检查python安装路径下的python.exe是否加入到系统环境变量path中；未安装的电脑可以用本文件夹中的python3-64位-安装包安装，安装时看《python安装注意事项》
+
+程序说明：
+
+Cast2A.m ：总程序入口
+
+FileChange.py : 读入ProCAST导出的温度场文件t.ntl和t.log，生成ABAQUS所需的节点集文件Nset.txt                 、 预定义场文件 PreField.txt 和 幅值文件 Amplitude.txt
+
+ReadElem.py : 读入ProCAST导出的各组件网格模型的inp文件，转为ABAQUS规定格式，方便在去除型壳时使              用杀死单元。
+
+Add2Inp ： 将FileChange生成的节点集文件、幅值文件、预定义场文件 加入到ABAQUS inp文件的标记位置
+
+
+运行方式：
+
+文件准备——将ProCAST导出的温度场文件分别改为t.ntl,t.log,moke.inp,拷贝到本文件夹
+
+运行方法1：CMD或PowerShell运行
+        第一步：输入 cd “path”，path为本文件夹在系统的绝对路径，如“C:\Users\Administrator”
+        第二步：依次输入
+                       python FileChange.py n      (/// 此行的n是时间步增量)
+                       python ReadElem.py
+                       python Add2inp.py
+                       abaqus job=ProCAST
+
+运行方法2：Matlab运行
+         第一步：将当前工作目录（Current Working Directory）改为本文件夹的路径
+         第二步：在Matlab命令行窗口输入Cast2A
+         或
+         （第二步：用Matlab edit打开Cast2A.m,按F5或点击绿色的三角形运行按钮）
+
+运行方法3：通过CMD运行Matlab .m 文件
+         第一步：将“matlabroot\bin\win64\Matlab.exe" 加入系统环境变量 path
+         第二步：在CMD或PowerShell 输入 matlab -nodesktop -r Cast2A
